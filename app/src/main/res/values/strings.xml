@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Coinhut</string>
+
+    <string name="token">Token</string>
+    <string name="price">Price</string>
+    <string name="asset">Asset</string>
+    <string name="holdings">Holdings</string>
+    <string name="add_new_asset">Add New Asset</string>
+
+    <string name="home">Home</string>
+    <string name="portfolio">Portfolio</string>
+
+    <string name="add">Add</string>
+
+    <string name="current_holdings">Current Holdings</string>
+    <string name="new_holdings">New Holdings</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="input_field">Enter new value</string>
+
+    <string name="overview">Overview</string>
+    <string name="about">About</string>
+
+    <string name="supply">Supply</string>
+    <string name="total_supply">Total supply</string>
+    <string name="max_supply">Max supply</string>
+    <string name="circulating_supply">Circulating supply</string>
+
+    <string name="community">Community</string>
+    <string name="facebook_likes">Facebook likes</string>
+    <string name="twitter_followers">Twitter followers</string>
+    <string name="reddit_average_posts_48h">Reddit average posts (48h)</string>
+    <string name="reddit_average_comments_48h">Reddit average comments (48h)</string>
+    <string name="reddit_subscribers">Reddit subscribers</string>
+
+</resources>
