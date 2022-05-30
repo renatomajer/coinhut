@@ -22,8 +22,6 @@ import com.project.coinhut.ui.theme.Typography
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    assets: List<Token>,
-    tokens: List<Token>,
     navController: NavController
 ) {
     var home by remember { mutableStateOf(true) }
@@ -99,13 +97,11 @@ fun MainScreen(
     ) {
         if (home) {
             HomeScreen(
-                tokens = tokens,
                 modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
                 navController = navController
             )
         } else {
             PortfolioScreen(
-                assets = assets,
                 modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
                 navController = navController
             )

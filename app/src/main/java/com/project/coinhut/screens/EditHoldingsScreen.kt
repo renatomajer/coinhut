@@ -25,7 +25,10 @@ import com.project.coinhut.components.TopBarLogoName
 import com.project.coinhut.ui.theme.Typography
 import com.project.coinhut.utils.Token
 import com.project.coinhut.utils.t1
+import com.project.coinhut.viewmodel.EditHoldingsScreenViewModel
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.viewModel
+import org.koin.core.parameter.parametersOf
 
 
 @Composable
@@ -35,7 +38,11 @@ fun EditHoldingsScreen(
     navController: NavController
 ) {
 
-    val asset: Token = t1 // get token from API and value from database
+    val editHoldingsScreenViewModel by viewModel<EditHoldingsScreenViewModel> { parametersOf(assetId) }
+
+    // TODO: remove mocked image
+    val asset: Token by editHoldingsScreenViewModel.getAsset(assetId)
+        .collectAsState(initial = Token(image = R.drawable.bitcoin_small)) // get token from API and value from database
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -180,11 +187,12 @@ fun EditHoldingsScreen(
                         onClick = {
                             /*TODO add on click logic*/
                             try {
-                                val newHolding = value.replace(",", ".")
+                                val newHolding = value.replace(",", ".").toDouble()
 
-                                if (newHolding.toDouble() < 0.0) throw NumberFormatException()
+                                if (newHolding < 0.0) throw NumberFormatException()
 
-                                asset.holding = newHolding.toDouble()
+                                editHoldingsScreenViewModel.setHoldings(asset.copy(), newHolding)
+
                             } catch (exception: NumberFormatException) {
                                 scope.launch {
                                     scaffoldState.snackbarHostState.showSnackbar(

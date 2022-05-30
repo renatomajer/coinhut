@@ -10,7 +10,7 @@ data class Token(
     var image: Int = 0,
     var holding: Double = 0.0, // quantity of the token in possession
     var price_change_percentage_24h: Double = 0.0,
-    var total_supply: Long = 0L,
+    var total_supply: Long = 0L, // TODO all of the supply values need to be double or null
     var max_supply: Long = 0L,
     var circulating_supply: Long = 0L,
     var facebook_likes: Long? = 0L,

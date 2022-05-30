@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -16,14 +18,20 @@ import com.project.coinhut.components.TokenCard
 import com.project.coinhut.navigation.Screens
 import com.project.coinhut.ui.theme.Typography
 import com.project.coinhut.utils.Token
+import com.project.coinhut.viewmodel.HomeScreenViewModel
+import org.koin.androidx.compose.viewModel
+import org.koin.core.parameter.parametersOf
 
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    tokens: List<Token>,
     navController: NavController
 ) {
+
+    val homeScreenViewModel by viewModel<HomeScreenViewModel>()
+
+    val tokens: List<Token> by homeScreenViewModel.getTokens().collectAsState(initial = listOf())
 
     LazyColumn(
         modifier = modifier

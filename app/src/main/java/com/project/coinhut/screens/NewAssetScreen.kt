@@ -8,6 +8,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,14 +21,19 @@ import com.project.coinhut.utils.Token
 import com.project.coinhut.R
 import com.project.coinhut.navigation.Screens
 import com.project.coinhut.ui.theme.Typography
+import com.project.coinhut.viewmodel.NewAssetScreenViewModel
+import org.koin.androidx.compose.viewModel
 
 
 @Composable
 fun NewAssetScreen(
     modifier: Modifier = Modifier,
-    assets: List<Token>,
     navController: NavController
 ) {
+
+    val newAssetScreenViewModel by viewModel<NewAssetScreenViewModel>()
+
+    val assets: List<Token> by newAssetScreenViewModel.getNewAssets().collectAsState(initial = listOf())
 
     Scaffold(
         topBar = { NewAssetScreenTopBar( onIconButtonClick = { navController.popBackStack() }) },

@@ -21,14 +21,12 @@ fun Navigation() {
 
         composable(route = Screens.MainScreen.route) {
             MainScreen(
-                assets = listOf(t1, t1, t1),
-                tokens = listOf(t1, t1, t1),
                 navController = navController
             )
         }
 
         composable(route = Screens.NewAssetScreen.route) {
-            NewAssetScreen(assets = listOf(t1, t1, t1), navController = navController)
+            NewAssetScreen(navController = navController)
         }
 
         composable(

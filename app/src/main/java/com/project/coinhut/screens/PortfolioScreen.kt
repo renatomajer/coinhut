@@ -7,6 +7,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -18,15 +20,20 @@ import com.project.coinhut.components.AssetCard
 import com.project.coinhut.navigation.Screens
 import com.project.coinhut.ui.theme.Typography
 import com.project.coinhut.utils.Token
+import com.project.coinhut.viewmodel.PortfolioScreenViewModel
+import org.koin.androidx.compose.viewModel
 
 
 @Composable
 fun PortfolioScreen(
     modifier: Modifier = Modifier,
-    assets: List<Token>, // list of tokens in possession
     onAddNewAssetClick: () -> Unit = {},
     navController: NavController
 ) {
+
+    val portfolioScreenViewModel by viewModel<PortfolioScreenViewModel>()
+
+    val assets: List<Token> by portfolioScreenViewModel.getAssets().collectAsState(initial = listOf())// list of tokens in possession
 
     Scaffold(
         modifier = modifier,

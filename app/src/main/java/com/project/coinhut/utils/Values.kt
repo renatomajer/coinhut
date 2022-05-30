@@ -38,7 +38,7 @@ val t1 = Token(
     symbol = "btc",
     price = 27719.0,
     image = R.drawable.bitcoin_small,
-    holding = 15.215,
+    holding = 0.0,
     description = "Bitcoin is the first successful internet money based on peer-to-peer technology; whereby no central bank or authority is involved in the transaction and production of the Bitcoin currency. It was created by an anonymous individual/group under the name, Satoshi Nakamoto. The source code is available publicly as an open source project, anybody can look at it and be part of the developmental process.\r\n\r\nBitcoin is changing the way we see money as we speak. The idea was to produce a means of exchange, independent of any central authority, that could be transferred electronically in a secure, verifiable and immutable way. It is a decentralized peer-to-peer internet currency making mobile payment easy, very low transaction fees, protects your identity, and it works anywhere all the time with no central authority and banks.\r\n\r\nBitcoin is designed to have only 21 million BTC ever created, thus making it a deflationary currency. Bitcoin uses the <a href=\"https://www.coingecko.com/en?hashing_algorithm=SHA-256\">SHA-256</a> hashing algorithm with an average transaction confirmation time of 10 minutes. Miners today are mining Bitcoin using ASIC chip dedicated to only mining Bitcoin, and the hash rate has shot up to peta hashes.\r\n\r\nBeing the first successful online cryptography currency, Bitcoin has inspired other alternative currencies such as <a href=\"https://www.coingecko.com/en/coins/litecoin\">Litecoin</a>, <a href=\"https://www.coingecko.com/en/coins/peercoin\">Peercoin</a>, <a href=\"https://www.coingecko.com/en/coins/primecoin\">Primecoin</a>, and so on.\r\n\r\nThe cryptocurrency then took off with the innovation of the turing-complete smart contract by <a href=\"https://www.coingecko.com/en/coins/ethereum\">Ethereum</a> which led to the development of other amazing projects such as <a href=\"https://www.coingecko.com/en/coins/eos\">EOS</a>, <a href=\"https://www.coingecko.com/en/coins/tron\">Tron</a>, and even crypto-collectibles such as <a href=\"https://www.coingecko.com/buzz/ethereum-still-king-dapps-cryptokitties-need-1-billion-on-eos\">CryptoKitties</a>.",
     price_change_percentage_24h = 3.2518,
     total_supply = 21000000,
@@ -49,3 +49,31 @@ val t1 = Token(
     reddit_average_comments_48h = 816.6,
     reddit_subscribers = 4232924,
 )
+
+val t2 = Token(
+    id = "ethereum",
+    name = "Ethereum",
+    symbol = "eth",
+    price = 1684.98,
+    image = R.drawable.ethereum_small,
+    holding = 0.0,
+    price_change_percentage_24h = 1.84793,
+    total_supply = 0,
+    max_supply = 0,
+    circulating_supply = 120971849,
+)
+
+val t3 = Token(
+    id = "tether",
+    name = "Tether",
+    symbol = "usdt",
+    price = 0.932018,
+    image = R.drawable.tether_small,
+    holding = 0.0,
+    price_change_percentage_24h = -0.06974,
+    total_supply = 72537249554,
+    max_supply = 0,
+    circulating_supply = 72537249554,
+)
+
+val tokens = listOf(t1, t2, t3)

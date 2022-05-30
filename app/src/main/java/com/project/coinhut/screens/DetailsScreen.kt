@@ -11,6 +11,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +28,9 @@ import com.project.coinhut.utils.Prices
 import com.project.coinhut.utils.Token
 import com.project.coinhut.utils.prices
 import com.project.coinhut.utils.t1
+import com.project.coinhut.viewmodel.DetailsScreenViewModel
+import org.koin.androidx.compose.viewModel
+import org.koin.core.parameter.parametersOf
 
 
 @Composable
@@ -34,8 +39,15 @@ fun DetailsScreen(
     tokenId: String,
     navController: NavController
 ) {
-    val prices: Prices = prices // prices need to be loaded from the API
-    val token = t1 // token needs to be loaded from the API
+
+    val detailsScreenViewModel by viewModel<DetailsScreenViewModel> { parametersOf(tokenId) }
+
+    val prices: Prices by detailsScreenViewModel.getPrices(tokenId)
+        .collectAsState(initial = Prices(0.0, listOf())) // prices need to be loaded from the API
+
+    // TODO: remove mocked image
+    val token by detailsScreenViewModel.getToken(tokenId)
+        .collectAsState(initial = Token(image = R.drawable.bitcoin_small)) // token needs to be loaded from the API
 
     Scaffold(
         modifier = modifier,
