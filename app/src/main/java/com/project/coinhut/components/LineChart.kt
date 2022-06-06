@@ -1,5 +1,6 @@
 package com.project.coinhut.components
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
@@ -23,6 +24,7 @@ fun LineChart(
 ) {
 
     if (prices.prices.isEmpty()) return
+    Log.d("debug_log", "$prices")
 
     Card(
         modifier = Modifier
@@ -55,14 +57,16 @@ fun LineChart(
                                 x = currentLineDistance,
                                 y = calculateYCoordinate(
                                     higherPriceRateValue = prices.maxPrice,
+                                    lowerPriceRateValue = prices.minPrice,
                                     currentPriceRate = priceRate.priceValue,
                                     canvasHeight = cHeight
                                 )
                             ),
                             end = Offset(
                                 x = currentLineDistance + lineDistance,
-                                y =  calculateYCoordinate(
+                                y = calculateYCoordinate(
                                     higherPriceRateValue = prices.maxPrice,
+                                    lowerPriceRateValue = prices.minPrice,
                                     currentPriceRate = prices.prices[index + 1].priceValue,
                                     canvasHeight = cHeight
                                 )
@@ -82,14 +86,20 @@ fun LineChart(
 
 private fun calculateYCoordinate(
     higherPriceRateValue: Double,
+    lowerPriceRateValue: Double,
     currentPriceRate: Double,
     canvasHeight: Float
 ): Float {
 
     //TODO: remove multiplying by 100 and find a solution for small differences
-    val maxAndCurrentValueDifference = (higherPriceRateValue - currentPriceRate)*100
+    val maxAndCurrentValueDifference =
+        (higherPriceRateValue - currentPriceRate)
 
-    val relativePercentageOfScreen = (canvasHeight / higherPriceRateValue)
+
+    val relativePercentageOfScreen = (canvasHeight / (higherPriceRateValue - lowerPriceRateValue))
+    Log.d("debug_log", "$canvasHeight")
+    Log.d("debug_log", "CALC: $maxAndCurrentValueDifference")
+    Log.d("debug_log", "CALC: ${maxAndCurrentValueDifference * relativePercentageOfScreen}")
 
     return (maxAndCurrentValueDifference * relativePercentageOfScreen).toFloat()
 }
@@ -126,8 +136,9 @@ fun prev() {
 
     val prices = Prices(
         maxPrice = 27879.756573409402,
+        minPrice = 27810.810856672357,
         prices = listOf(p1, p2, p3, p4, p5)
     )
-    
+
     LineChart(prices = prices)
 }

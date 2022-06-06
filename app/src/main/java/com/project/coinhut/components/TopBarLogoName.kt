@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import coil.compose.rememberImagePainter
 import com.project.coinhut.R
 import com.project.coinhut.ui.theme.Typography
 import com.project.coinhut.utils.Token
@@ -35,7 +36,7 @@ fun TopBarLogoName(
         }
 
         Image(
-            painter = painterResource(id = token.image),
+            painter = rememberImagePainter(data = token.image.replace("/large/", "/small/")),
             contentDescription = null,
             modifier = Modifier.padding(
                 start = dimensionResource(id = R.dimen.small_spacing),

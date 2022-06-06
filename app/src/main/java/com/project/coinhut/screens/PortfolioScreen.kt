@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.project.coinhut.R
 import com.project.coinhut.components.AssetCard
@@ -33,7 +34,8 @@ fun PortfolioScreen(
 
     val portfolioScreenViewModel by viewModel<PortfolioScreenViewModel>()
 
-    val assets: List<Token> by portfolioScreenViewModel.getAssets().collectAsState(initial = listOf())// list of tokens in possession
+    val assets: List<Token> by portfolioScreenViewModel.getAssets()
+        .collectAsState(initial = listOf())// list of tokens in possession
 
     Scaffold(
         modifier = modifier,
@@ -49,25 +51,53 @@ fun PortfolioScreen(
                 )
         ) {
 
+            // Balance
+            item {
+                Column(
+                    modifier = Modifier.padding(
+                        start = dimensionResource(id = R.dimen.portfolio_balance_start_padding),
+                        top = dimensionResource(id = R.dimen.portfolio_balance_top_padding),
+                        bottom = dimensionResource(id = R.dimen.portfolio_balance_bottom_padding)
+                    )
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.your_balance),
+                        style = Typography.subtitle1,
+                        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.portfolio_balance_title_bottom_padding))
+                    )
+
+                    var balance: Double = 0.0
+
+                    assets.forEach {
+                        balance += it.holding * it.current_price
+                    }
+
+                    Text(
+                        text = stringResource(id = R.string.eur) + " " + "%.2f".format(balance).replace(",", "."),
+                        style = Typography.h5
+                    )
+                }
+            }
+
             item {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(dimensionResource(id = R.dimen.portfolio_screen_header_bottom_padding)),
+                        .padding(
+                            bottom = dimensionResource(id = R.dimen.portfolio_screen_header_bottom_padding),
+                            top = dimensionResource(id = R.dimen.portfolio_screen_header_top_padding),
+                            start = dimensionResource(id = R.dimen.portfolio_screen_header_start_padding),
+                            end = dimensionResource(id = R.dimen.portfolio_screen_header_end_padding)
+                        ),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = stringResource(id = R.string.asset),
+                        text = stringResource(id = R.string.your_assets),
                         style = Typography.subtitle1
                     )
 
                     Text(
-                        text = stringResource(id = R.string.price),
-                        style = Typography.subtitle1
-                    )
-
-                    Text(
-                        text = stringResource(id = R.string.holdings),
+                        text = stringResource(id = R.string.balance),
                         style = Typography.subtitle1
                     )
                 }
@@ -86,9 +116,19 @@ fun PortfolioScreen(
                 AssetCard(
                     token = assets[it],
                     onAssetClick = { navController.navigate(Screens.DetailsScreen.route + "/${assets[it].id}") },
-                    onHoldingClick = { navController.navigate(Screens.EditHoldingsScreen.route + "/${assets[it].id}") }
+                    onHoldingClick = { navController.navigate(Screens.EditHoldingsScreen.route + "/${assets[it].id}") },
                 )
             }
+
+            item {
+                Spacer(
+                    modifier = Modifier
+                        .height(dimensionResource(id = R.dimen.portfolio_screen_spacer_height))
+                        .fillMaxWidth()
+                        .background(Color.Transparent)
+                )
+            }
+
         }
     }
 

@@ -16,15 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.project.coinhut.R
 import com.project.coinhut.components.TopBarLogoName
 import com.project.coinhut.ui.theme.Typography
 import com.project.coinhut.utils.Token
-import com.project.coinhut.utils.t1
 import com.project.coinhut.viewmodel.EditHoldingsScreenViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.viewModel
@@ -40,9 +41,8 @@ fun EditHoldingsScreen(
 
     val editHoldingsScreenViewModel by viewModel<EditHoldingsScreenViewModel> { parametersOf(assetId) }
 
-    // TODO: remove mocked image
     val asset: Token by editHoldingsScreenViewModel.getAsset(assetId)
-        .collectAsState(initial = Token(image = R.drawable.bitcoin_small)) // get token from API and value from database
+        .collectAsState(initial = Token()) // get token from API and value from database
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -83,9 +83,11 @@ fun EditHoldingsScreen(
 
             item {
                 Text(
-                    text = asset.holding.toString() + " " + asset.symbol.uppercase(),
+                    text = formattedText(asset.holding, asset.symbol),
                     style = Typography.h6,
+                    fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center,
+                    fontSize = 18.sp,
                     modifier = Modifier
                         .padding(
                             top = dimensionResource(id = R.dimen.edit_holdings_section_value_top_padding),
@@ -174,7 +176,7 @@ fun EditHoldingsScreen(
                             backgroundColor = Color.Blue,
                             contentColor = Color.White
                         ),
-                        onClick = { /*TODO*/ }
+                        onClick = { value = "" }
                     ) {
                         Text(text = stringResource(id = R.string.cancel))
                     }
@@ -188,7 +190,7 @@ fun EditHoldingsScreen(
                             /*TODO add on click logic*/
                             try {
                                 val newHolding = value.replace(",", ".").toDouble()
-
+                                value = ""
                                 if (newHolding < 0.0) throw NumberFormatException()
 
                                 editHoldingsScreenViewModel.setHoldings(asset.copy(), newHolding)
@@ -226,3 +228,8 @@ fun EditHoldingsScreen(
 //
 //    InputField()
 //}
+
+
+fun formattedText(value: Double, symbol: String): String {
+    return "%.8f".format(value).replace(",", ".") + " " + symbol.uppercase()
+}

@@ -45,7 +45,12 @@ fun HomeScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(dimensionResource(id = R.dimen.home_screen_header_bottom_padding)),
+                    .padding(
+                        bottom = dimensionResource(id = R.dimen.home_screen_header_bottom_padding),
+                        top = dimensionResource(id = R.dimen.home_screen_header_top_padding),
+                        start = dimensionResource(id = R.dimen.home_screen_header_start_padding),
+                        end = dimensionResource(id = R.dimen.home_screen_header_end_padding)
+                    ),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(

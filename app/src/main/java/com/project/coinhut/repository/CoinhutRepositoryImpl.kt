@@ -1,20 +1,25 @@
 package com.project.coinhut.repository
 
 import android.util.Log
+import com.project.coinhut.api.CoinhutApi
 import com.project.coinhut.api.CoinhutMockedApi
+import com.project.coinhut.database.AppDatabase
+import com.project.coinhut.database.AssetHoldingEntity
 import com.project.coinhut.database.CoinhutMockedDatabase
 import com.project.coinhut.utils.Prices
 import com.project.coinhut.utils.Token
-import com.project.coinhut.utils.tokens
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 
 class CoinhutRepositoryImpl(
-    private val coinhutApi: CoinhutMockedApi,
-    private val coinhutDatabase: CoinhutMockedDatabase
+    private val coinhutApi: CoinhutApi,
+    private val coinhutDatabase: CoinhutMockedDatabase,
+    private val database: AppDatabase
 ) : CoinhutRepository {
+
+    private val holdingsDao = database.holdingsDao()
 
     private object RefreshEvent
 
@@ -34,11 +39,24 @@ class CoinhutRepositoryImpl(
     // returns details about that token and its current holdings
     override fun getAsset(assetId: String): Flow<Token> {
         return assetFlow.map {
-            val holdings = coinhutDatabase.getHoldings(assetId)
+            //val holdings = coinhutDatabase.getHoldings(assetId)
+            val assetHolding = holdingsDao.getAssetHolding(assetId).first()
+
+            var holdings: Double
+
+            if (assetHolding == null) {
+                holdings = 0.0
+            } else {
+                holdings = assetHolding.holding
+            }
+
             val token = coinhutApi.getToken(assetId)
+
             token.holding = holdings
+
             Log.d("debug_log", "TOKEN: $token")
             token
+
         }.shareIn(
             CoroutineScope(Dispatchers.Default),
             SharingStarted.WhileSubscribed(),
@@ -47,7 +65,14 @@ class CoinhutRepositoryImpl(
     }
 
     override suspend fun setHoldings(asset: Token, newValue: Double) {
-        coinhutDatabase.setHoldings(asset, newValue)
+        //coinhutDatabase.setHoldings(asset, newValue)
+
+        if(newValue > 0.0) {
+            holdingsDao.insertAssetHolding(AssetHoldingEntity(id = asset.id, holding = newValue))
+        } else {
+            holdingsDao.deleteAssetHolding(assetHolding = AssetHoldingEntity(id = asset.id, holding = newValue))
+        }
+
         refreshAssetFlow.emit(RefreshEvent)
     }
 
@@ -60,7 +85,12 @@ class CoinhutRepositoryImpl(
     override fun getNewAssets(): Flow<List<Token>> {
         return flow {
             val tokens = coinhutApi.getTokens()
-            val assets = coinhutDatabase.getAllHoldings()
+            //val assets = coinhutDatabase.getAllHoldings()
+            val assets = holdingsDao.getAll().first().map {
+                val token = coinhutApi.getToken(it.id)
+                token.holding = it.holding
+                token
+            }
             var newAssets = mutableListOf<Token>()
             var inPossession: Boolean
 
@@ -84,8 +114,16 @@ class CoinhutRepositoryImpl(
     }
 
     override fun getAssets(): Flow<List<Token>> {
-        return flow {
-            emit(coinhutDatabase.getAllHoldings())
+//        return flow {
+//            emit(coinhutDatabase.getAllHoldings())
+//        }
+
+        return holdingsDao.getAll().map {
+            it.map {
+                val token = coinhutApi.getToken(it.id)
+                token.holding = it.holding
+                token
+            }
         }
     }
 

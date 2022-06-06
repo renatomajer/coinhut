@@ -6,6 +6,8 @@
     <string name="asset">Asset</string>
     <string name="holdings">Holdings</string>
     <string name="add_new_asset">Add New Asset</string>
+    <string name="your_assets">Your assets</string>
+    <string name="balance">Balance</string>
 
     <string name="home">Home</string>
     <string name="portfolio">Portfolio</string>
@@ -19,7 +21,7 @@
 
     <string name="input_field">Enter new value</string>
 
-    <string name="overview">Overview</string>
+    <string name="overview">overview</string>
     <string name="about">About</string>
 
     <string name="supply">Supply</string>
@@ -33,5 +35,11 @@
     <string name="reddit_average_posts_48h">Reddit average posts (48h)</string>
     <string name="reddit_average_comments_48h">Reddit average comments (48h)</string>
     <string name="reddit_subscribers">Reddit subscribers</string>
+
+    <string name="unknown">Unknown</string>
+    <string name="eur">EUR</string>
+    <string name="no_description">No description available.</string>
+
+    <string name="your_balance">Your balance</string>
 
 </resources>

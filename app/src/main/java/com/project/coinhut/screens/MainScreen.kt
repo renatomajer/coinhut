@@ -34,7 +34,7 @@ fun MainScreen(
                 backgroundColor = Color.White
             ) {
                 BottomNavigationItem(
-                    selected = true,
+                    selected = home,
                     onClick = {
                         if (!home) {
                             home = home.not()
@@ -64,7 +64,7 @@ fun MainScreen(
                 )
 
                 BottomNavigationItem(
-                    selected = false,
+                    selected = !home,
                     onClick = {
                         if (home) {
                             home = home.not()

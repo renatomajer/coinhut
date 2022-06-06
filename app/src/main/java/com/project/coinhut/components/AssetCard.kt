@@ -11,8 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import coil.compose.rememberImagePainter
 import com.project.coinhut.R
 import com.project.coinhut.ui.theme.Typography
 import com.project.coinhut.utils.Token
@@ -37,8 +40,8 @@ fun AssetCard(
                     )
                 )
                 .padding(
-                    start = dimensionResource(id = R.dimen.small_spacing),
-                    end = dimensionResource(id = R.dimen.small_spacing)
+                    start = dimensionResource(id = R.dimen.asset_card_content_start_padding),
+                    end = dimensionResource(id = R.dimen.asset_card_content_end_padding)
                 ),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -50,8 +53,14 @@ fun AssetCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(id = token.image),
-                    contentDescription = null
+                    painter = rememberImagePainter(
+                        data = token.image.replace(
+                            "/large/",
+                            "/small/"
+                        )
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.image_size))
                 )
 
                 Column(
@@ -72,34 +81,38 @@ fun AssetCard(
                 }
             }
 
-            // Price
-            Text(
-                text = ((token.price * 100).toInt() / 100.0).toString() + "€",
-                style = Typography.h6
-            )
+//            // Price
+//            Text(
+//                text = ((token.current_price * 100).toInt() / 100.0).toString() + "€",
+//                style = Typography.h6
+//            )
 
-            // Holdings
+            // Balance
             Column(
-                modifier = Modifier.clickable { onHoldingClick() }
+                modifier = Modifier.clickable { onHoldingClick() },
+                horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = (((token.holding * token.price) * 100).toInt() / 100.0).toString() + "€",
-                    style = Typography.h6
+                    text = stringResource(id = R.string.eur) + " " + (((token.holding * token.current_price) * 100).toInt() / 100.0).toString(),
+                    style = Typography.h6,
+                    fontWeight = FontWeight.Medium
                 )
 
                 Text(
-                    text = token.symbol.uppercase() + " " + token.holding.toString(),
-                    style = Typography.h6
+                    text = "%f".format(token.holding).replace(",", ".") + " " + token.symbol.uppercase(),
+                    style = Typography.h6,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Gray
                 )
             }
         }
 
-        Spacer(
-            modifier = Modifier
-                .height(Dp(0.5f))
-                .fillMaxWidth()
-                .background(Color.Gray)
-        )
+//        Spacer(
+//            modifier = Modifier
+//                .height(Dp(0.5f))
+//                .fillMaxWidth()
+//                .background(Color.Gray)
+//        )
     }
 
 }
@@ -112,8 +125,8 @@ fun AssetCardPreview() {
         id = "bitcoin",
         name = "Bitcoin",
         symbol = "btc",
-        price = 27719.0,
-        image = R.drawable.bitcoin_small,
+        current_price = 27719.0,
+        imgRes = R.drawable.bitcoin_small,
         holding = 0.5
     )
     AssetCard(token = t1)

@@ -34,7 +34,7 @@ val Typography = Typography(
     h6 = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
+        fontSize = 17.sp,
         color = Color.Black
     ),
 
@@ -42,7 +42,7 @@ val Typography = Typography(
     subtitle1 = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Normal,
-        fontSize = 20.sp,
+        fontSize = 17.sp,
         color = Color.Gray
     ),
 

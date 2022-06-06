@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
 import com.project.coinhut.R
 import com.project.coinhut.ui.theme.Typography
 import com.project.coinhut.utils.Token
@@ -56,8 +57,9 @@ fun NewAssetCard(
                     .clickable { onTokenButtonClick() }
             ) {
                 Image(
-                    painter = painterResource(id = token.image),
-                    contentDescription = null
+                    painter = rememberImagePainter(data = token.image.replace("/large/", "/small/")),
+                    contentDescription = null,
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.image_size))
                 )
 
                 Column(
@@ -102,12 +104,12 @@ fun NewAssetCard(
             }
         }
 
-        Spacer(
-            modifier = Modifier
-                .height(Dp(0.5f))
-                .fillMaxWidth()
-                .background(Color.Gray)
-        )
+//        Spacer(
+//            modifier = Modifier
+//                .height(Dp(0.5f))
+//                .fillMaxWidth()
+//                .background(Color.Gray)
+//        )
     }
 
 }
@@ -120,8 +122,8 @@ fun NewAssetCardPreview() {
         id = "bitcoin",
         name = "Bitcoin",
         symbol = "btc",
-        price = 27719.0,
-        image = R.drawable.bitcoin_small
+        current_price = 27719.0,
+        imgRes = R.drawable.bitcoin_small
     )
 
     NewAssetCard(token = t1)
