@@ -4,6 +4,7 @@ Coinhut is a simple Android application for cryptocurrencies in which users can 
 
 ## Technologies
 
+ - Jetpack Compose
  - MVVM architectural pattern
  - Room database
  - asynchronous Flow
