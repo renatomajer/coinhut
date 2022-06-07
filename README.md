@@ -1,6 +1,6 @@
 # Coinhut
 
-Coinhunt is a simple Android application for cryptocurrencies in which users can add cryptocurrencies to their portfolio, monitor the balance of their portfolio or view details of cryptocurrencies and their price fluctuations.
+Coinhut is a simple Android application for cryptocurrencies in which users can add cryptocurrencies to their portfolio, monitor the balance of their portfolio or view details of cryptocurrencies and their price fluctuations.
 
 ## Technologies
 
