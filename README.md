@@ -4,7 +4,11 @@ Coinhut is a simple Android application for cryptocurrencies in which users can 
 
 ## Technologies
 
-The app uses basic MVVM architectural pattern.
+ - MVVM architectural pattern
+ - Room database
+ - asynchronous Flow
+ - Ktor framework for HTTP requests
+ - Koin dependency injection framework.
 
 ## Screenshots
 
@@ -16,8 +20,3 @@ The app uses basic MVVM architectural pattern.
 <p align="center">
   <kbd> <img src="https://user-images.githubusercontent.com/46069535/172251581-b528eb75-675d-4a11-9f13-8ba08d048117.jpg" width="300" height="600" /> </kbd>
   </p>
-
-
-
-
-
